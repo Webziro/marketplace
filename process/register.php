@@ -1,5 +1,5 @@
 <?php
-    include "../include/init.php";
+    include "include/session.php";
     if(isset($_POST['submit'])){
         //print_r($_POST); die();
         $result = $app->createAccount($_POST);

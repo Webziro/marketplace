@@ -1,6 +1,6 @@
 <?php
-  include "include/init.php";
-  include "include/properties.php";
+      include "include/session.php";
+      include "include/properties.php";
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -39,32 +39,36 @@
 <span>All departments</span>
 </div>
 <ul>
-<li><a href="#">Fresh Meat</a></li>
-<li><a href="#">Vegetables</a></li>
-<li><a href="#">Fruit & Nut Gifts</a></li>
-<li><a href="#">Fresh Berries</a></li>
-<li><a href="#">Ocean Foods</a></li>
-<li><a href="#">Butter & Eggs</a></li>
-<li><a href="#">Fastfood</a></li>
-<li><a href="#">Fresh Onion</a></li>
-<li><a href="#">Papayaya & Crisps</a></li>
-<li><a href="#">Oatmeal</a></li>
-<li><a href="#">Fresh Bananas</a></li>
+<?php
+  $productDepartment = $app->productDepartment();
+  if($productDepartment["status"]==200){
+    foreach($productDepartment["data"] as $categoryDepartment){
+  
+?>
+<li><a href="productdepartment.php?urlId=<?= $categoryDepartment["_id"] ?>"><?= $categoryDepartment["_Name"] ?></a></li>  
+    <?php } } else{
+      echo "No category Department available";
+    } ?>
 </ul>
 </div>
 </div>
+
 <div class="col-lg-9">
 <div class="hero__search">
 <div class="hero__search__form">
-<form action="#">
+
+
+<form action="search.php" method="GET">
 <div class="hero__search__categories">
 All Categories
 <span class="arrow_carrot-down"></span>
 </div>
-<input type="text" placeholder="What do yo u need?">
-<button type="submit" class="site-btn">SEARCH</button>
+<input type="text" name="search" placeholder="What do yo u need?">
+<button type="submit" name="submit" class="site-btn">SEARCH</button>
 </form>
+
 </div>
+
 <div class="hero__search__phone">
 <div class="hero__search__phone__icon">
 <i class="fa fa-phone"></i>
@@ -75,12 +79,20 @@ All Categories
 </div>
 </div>
 </div>
+
+<?php
+    if(isset($_SESSION['msg'])){
+      echo($_SESSION['msg']);
+      unset($_SESSION['msg']);
+    }
+?>
+
 <div class="hero__item set-bg" data-setbg="img/hero/banner.jpeg">
 <div class="hero__text">
 <span>FRUIT FRESH</span>
 <h2>Vegetable <br />100% Organic</h2>
 <p>Free Pickup and Delivery Available</p>
-<a href="login.php" class="primary-btn">SHOP NOW</a>
+<a href="shop.php" class="primary-btn">SHOP NOW</a>
 </div>
 </div>
 </div>
@@ -93,31 +105,21 @@ All Categories
 <div class="container">
 <div class="row">
 <div class="categories__slider owl-carousel">
+
+<?php
+    $productDepartment = $app->productDepartment();
+    if($productDepartment["status"]==200){
+      foreach($productDepartment["data"] as $categoryDepartment){
+?>
 <div class="col-lg-3">
 <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpeg">
-<h5><a href="#">Fresh Fruit</a></h5>
+<h5><a href="productdepartment.php?urlId=<?= $categoryDepartment["_id"]?>"><?= $categoryDepartment["_Name"] ?></a></h5>
 </div>
 </div>
-<div class="col-lg-3">
-<div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpeg">
-<h5><a href="#">Dried Fruit</a></h5>
-</div>
-</div>
-<div class="col-lg-3">
-<div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpeg">
-<h5><a href="#">Vegetables</a></h5>
-</div>
-</div>
-<div class="col-lg-3">
-<div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpeg">
-<h5><a href="#">drink fruits</a></h5>
-</div>
-</div>
-<div class="col-lg-3">
-<div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpeg">
-<h5><a href="#">drink fruits</a></h5>
-</div>
-</div>
+<?php } } else{
+  echo "No available Product Department";
+}?>
+
 </div>
 </div>
 </div>
@@ -128,29 +130,38 @@ All Categories
 
 <!-- Query for featured Products starts here -->
 <section class="featured spad">
-<div class="container">
-<div class="row">
-<div class="col-lg-12">
-<div class="section-title">
-<h2>Our Product</h2>
+    <div class="container">
+      <div class="row">
+      <div class="col-lg-12">
+    <div class="section-title">
+    <h2>Our Product</h2>
 </div>
+
+
 <div class="featured__controls">
-<ul>
-<li class="active" data-filter="*">All</li>
-<li data-filter=".oranges">Oranges</li>
-<li data-filter=".fresh-meat">Fresh Meat</li>
-<li data-filter=".vegetables">Vegetables</li>
-<li data-filter=".fastfood">Fastfood</li>
-</ul>
-</div>
+    <ul>
+        <li class="active" data-filter="*">All</li>
+
+    <?php
+          $productDepartment = $app->productDepartment();
+          if($productDepartment["status"]==200){
+            foreach($productDepartment["data"] as $resultDepartment){    
+    ?>
+      <li a href="productdepartment.php?urlId=<?= $resultDepartment["_id"] ?>"><?= $resultDepartment["_Name"] ?></li>
+    <?php
+        } }
+    ?>
+  </ul>  
+  </div>
+    
 </div>
 </div>
 
 
 <div class="row featured__filter">
 <?php
-  if($app->featuredProduct()['status']==200){
-    foreach($app->featuredProduct()['data'] as $data){
+  if($app->Products()['status']==200){
+    foreach($app->Products()['data'] as $data){
 ?>
 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 <div class="featured__item">
@@ -158,12 +169,12 @@ All Categories
 <ul class="featured__item__pic__hover">
 <li><a href="#"><i class="fa fa-heart"></i></a></li>
 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-<li><a onclick="addToCart(<?php echo $data['PId']; ?>"><i class="fa fa-shopping-cart"></i></a></li>
+<li><a href="addtocart.php?id=<?php echo $data['_id']; ?>"><i class="fa fa-shopping-cart"></i></a></li>
 </ul>
 </div>
 <div class="featured__item__text">
 <h6><a href="#"><?= $data['_Name'];?></a></h6>
-<h5><?= $data['_NPrice'];?></h5> 
+<h5>&#8358;<?= $data['_NPrice'];?></h5> 
 </div>
 </div>
 </div>
@@ -176,8 +187,6 @@ All Categories
 
 
 
-
-
 <section class="featured spad">
 <div class="container">
 <div class="row">
@@ -187,13 +196,20 @@ All Categories
 </div>
 <div class="featured__controls">
 <ul>
-<li class="active" data-filter="*">All</li>
-<li data-filter=".oranges">Oranges</li>
-<li data-filter=".fresh-meat">Fresh Meat</li>
-<li data-filter=".vegetables">Vegetables</li>
-<li data-filter=".fastfood">Fastfood</li>
-</ul>
-</div>
+        <li class="active" data-filter="*">All</li>
+
+    <?php
+          $productDepartment = $app->productDepartment();
+          if($productDepartment["status"]==200){
+            foreach($productDepartment["data"] as $resultDepartment){    
+    ?>
+      <li a href="productdepartment.php?urlId=<?= $resultDepartment["_id"] ?>"><?= $resultDepartment["_Name"] ?></li>
+    <?php
+        } }
+    ?>
+  </ul>  
+  </div>
+    
 </div>
 </div>
 
@@ -252,16 +268,16 @@ All Categories
 ?>
 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 <div class="featured__item">
-<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpeg">
-<ul class="featured__item__pic__hover">
+<a href="category.php"><div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpeg"> </a> 
+<!--  <ul class="featured__item__pic__hover">
 <li><a href="#"><i class="fa fa-heart"></i></a></li>
 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li> --!>
 </ul>
 </div>
 <div class="featured__item__text">
 <h6><a href="#"><?= $data['_Name'];?></a></h6>
-<h5><?= $data['_NPrice'];?></h5>
+<!--<h5><?= $data['_NPrice'];?></h5>--!>
 </div>
 </div>
 </div>
@@ -296,12 +312,12 @@ All Categories
 
 <div class="row featured__filter">
 <?php 
-    if($app->Products()['status']==200){
-        foreach($app->Products()['data'] as $data){
+    if($app->latestProduct()['status']==200){
+        foreach($app->latestProduct()['data'] as $data){
 ?>
 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 <div class="featured__item">
-<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpeg">
+<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-2.jpeg">
 <ul class="featured__item__pic__hover">
 <li><a href="#"><i class="fa fa-heart"></i></a></li>
 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -376,12 +392,12 @@ All Categories
 <div class="row">
 <div class="col-lg-6 col-md-6 col-sm-6">
 <div class="banner__pic">
-<img src="img/banner/banner-1.jpg" alt="">
+<a href="shop.php"><img src="img/banner/banner-1.jpg" alt=""> </a>
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-sm-6">
 <div class="banner__pic">
-<img src="img/banner/banner-2.jpg" alt="">
+<a href="shop.php"><img src="img/banner/banner-2.jpg" alt=""></a>
 </div>
 </div>
 </div>

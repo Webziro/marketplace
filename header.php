@@ -130,7 +130,7 @@
 <nav class="header__menu">
 <ul>
 <li class="active"><a href="index.php">Home</a></li>
-<li><a href="shop-grid.php">Shop</a></li>
+<li><a href="shop.php">Shop</a></li>
 <li><a href="#">Pages</a>
 <ul class="header__menu__dropdown">
 <li><a href="shop-details.php">Shop Details</a></li>

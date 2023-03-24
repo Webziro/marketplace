@@ -9,8 +9,8 @@
             $_SESSION['msg']=$result['message'];
             header("location: ../login.php");
         } else {
-            $_SESSION['userid']=$result['userid'];
-            header("location: ../shop-grid.php");
+            $_SESSION['userId']=$result['userid'];
+            header("location: ../shop.php");
         }       
         
     }else{

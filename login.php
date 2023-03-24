@@ -73,7 +73,6 @@ All Categories
 </div>
 </section>
 
-
 <section class="checkout spad">
 <div class="container">
 <div class="row">
@@ -83,10 +82,6 @@ All Categories
 </div>
 </div>
 
-<div class="checkout__form">
-<h4>Billing Details</h4>
-
-
 
 <?php 
     if(isset($_SESSION['msg'])){
@@ -94,8 +89,8 @@ All Categories
         unset($_SESSION['msg']);
     }
 ?>
-
-
+<div class="checkout__form">
+<h4>Billing Details</h4>
 <form action="process/login.php" method="POST">
 <div class="row">
 <div class="col-lg-8 col-md-6">

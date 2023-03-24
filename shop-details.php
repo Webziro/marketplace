@@ -1,3 +1,7 @@
+<?php
+  include "include/properties.php";
+  include "include/session.php";
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -7,7 +11,7 @@
 <meta name="keywords" content="Ogani, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ogani | Template</title>
+<title><?= $title?></title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&amp;display=swap" rel="stylesheet">
 
@@ -68,7 +72,7 @@ All Categories
 <i class="fa fa-phone"></i>
 </div>
 <div class="hero__search__phone__text">
-<h5>+65 11.188.888</h5>
+<h5><?= $phone ?></h5>
 <span>support 24/7 time</span>
 </div>
 </div>
@@ -110,6 +114,8 @@ All Categories
 </div>
 </div>
 </div>
+
+
 <div class="col-lg-6 col-md-6">
 <div class="product__details__text">
 <h3>Vetgetable’s Package</h3>
@@ -121,10 +127,14 @@ All Categories
 <i class="fa fa-star-half-o"></i>
 <span>(18 reviews)</span>
 </div>
-<div class="product__details__price">$50.00</div>
-<p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
-vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
+
+
+<?php
+    if($app->Products()['status']==200){
+      foreach($app->Products()['data'] as $productsDetails){
+?>
+<div class="product__details__price">&#8358;<?= $productsDetails['_NPrice'] ?></div>
+<p><?= $productsDetails['_sDesc'] ?></p>
 <div class="product__details__quantity">
 <div class="quantity">
 <div class="pro-qty">
@@ -132,12 +142,14 @@ quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
 </div>
 </div>
 </div>
-<a href="#" class="primary-btn">ADD TO CARD</a>
+<a href="#" class="primary-btn">ADD TO CART</a>
 <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
 <ul>
-<li><b>Availability</b> <span>In Stock</span></li>
+<li><b>Availability</b> <span><?= $productsDetails['proavail'] ?></span></li>
 <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
 <li><b>Weight</b> <span>0.5 kg</span></li>
+
+        <?php }} ?>
 <li><b>Share on</b>
 <div class="share">
 <a href="#"><i class="fa fa-facebook"></i></a>

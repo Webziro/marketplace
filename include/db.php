@@ -36,3 +36,5 @@ class Database extends PDO
         }
     }
 }
+
+?>

@@ -2,6 +2,8 @@
 <html lang="zxx">
 
 <?php
+    include "include/session.php";
+    include "include/properties.php";
     include "header.php";
 ?>
 
@@ -93,39 +95,45 @@ All Categories
 </thead>
 <tbody>
 
+
+<?php $items = $app->CartItems($userId);
+if($items!=0){ 
+  foreach($items as $item){ ?>
 <tr>
 <td class="shoping__cart__item">
 <img src="img/cart/cart-3.jpg" alt="">
-<h5>Organic Bananas</h5>
+<h5><?php echo $item['_productname']; ?></h5>
 </td>
 <td class="shoping__cart__price">
-$69.00
+<?php echo $item['productPrice']; ?>
 </td>
+
+
 <td class="shoping__cart__quantity">
 <div class="quantity">
 <div class="pro-qty">
-<input type="text" value="1">
+<input type="text" value="<?= $item['qty'] ?>">
 </div>
 </div>
 </td>
 <td class="shoping__cart__total">
-$69.99
+<?= $item['productPrice']*$item['qty'] ?>
 </td>
 <td class="shoping__cart__item__close">
-<span class="icon_close"></span>
+<a href="removecart.php?id=<?php echo $item['id']; ?>"> <span class="icon_close"></span></a>
 </td>
 </tr>
+<?php } } ?>
 </tbody>
 </table>
 </div>
 </div>
-</div>
-
-
+</div>    
+   
 <div class="row">
 <div class="col-lg-12">
 <div class="shoping__cart__btns">
-<a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+<a href="shop.php" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
 <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
 Upadate Cart</a>
 </div>
@@ -133,6 +141,8 @@ Upadate Cart</a>
 <div class="col-lg-6">
 <div class="shoping__continue">
 <div class="shoping__discount">
+
+
 <h5>Discount Codes</h5>
 <form action="#">
 <input type="text" placeholder="Enter your coupon code">
@@ -143,10 +153,16 @@ Upadate Cart</a>
 </div>
 <div class="col-lg-6">
 <div class="shoping__checkout">
+
+
+
+
+
 <h5>Cart Total</h5>
 <ul>
-<li>Subtotal <span>$454.98</span></li>
-<li>Total <span>$454.98</span></li>
+<li>Subtotal <span><?= $app->totalinCart($userId);?></span></li>
+<li>Delivery Charges <span><?= $deliveryfee ?></span></li>
+<li>Total <span><?= $app->totalinCart($userId) + $deliveryfee;?></span></li>
 </ul>
 <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
 </div>
@@ -165,9 +181,9 @@ Upadate Cart</a>
 <a href="index.php"><img src="img/logo.png" alt=""></a>
 </div>
 <ul>
-<li>Address: 60-49 Road 11378 New York</li>
-<li>Phone: +65 11.188.888</li>
-<li>Email: <a href="https://preview.colorlib.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="721a171e1e1d32111d1e1d001e1b105c111d1f">[email&#160;protected]</a></li>
+<li><?=$address;?></li>
+<li><?=$phone;?></li>
+<li><?=$email;?> <a href="https://preview.colorlib.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="721a171e1e1d32111d1e1d001e1b105c111d1f">[email&#160;protected]</a></li>
 </ul>
 </div>
 </div>
@@ -213,8 +229,7 @@ Upadate Cart</a>
 <div class="col-lg-12">
 <div class="footer__copyright">
 <div class="footer__copyright__text"><p>
-Copyright &copy;<script data-cfasync="false" src="https://preview.colorlib.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
-</p></div>
+Copyright &copy;</p></div>
 <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>
 </div>
 </div>
@@ -243,5 +258,4 @@ Copyright &copy;<script data-cfasync="false" src="https://preview.colorlib.com/c
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"79a5e7749eb50a77","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2023.2.0","si":100}' crossorigin="anonymous"></script>
 </body>
 
-<!-- Mirrored from preview.colorlib.com/theme/ogani/shoping-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 16 Feb 2023 11:22:59 GMT -->
 </html>
